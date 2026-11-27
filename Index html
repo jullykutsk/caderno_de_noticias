@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt" data-theme="day">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caderno de Notícias — Edições Dia & Noite</title>
+  <style>
+    :root {
+      --bg: #f7f4ec;
+      --surface: #fffdf8;
+      --surface-alt: #efeae0;
+      --text: #1e2221;
+      --muted: #565e5b;
+      --border: #d8d0c2;
+      --accent: #2c5e4f;
+      --accent-soft: #e3efe9;
+      --shadow: 0 2px 10px rgba(30, 34, 33, 0.06);
+    }
+
+    html[data-theme="night"] {
+      --bg: #121615;
+      --surface: #1a201e;
+      --surface-alt: #232b28;
+      --text: #eceae2;
+      --muted: #a6b0ab;
+      --border: #2f3a36;
+      --accent: #74b49e;
+      --accent-soft: #1f332c;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.6;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 20px 16px 64px;
+    }
+
+    header.masthead {
+      border-top: 3px solid var(--text);
+      border-bottom: 2px solid var(--text);
+      padding: 18px 0 14px;
+      margin-bottom: 20px;
+    }
+
+    .masthead-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    h1.brand {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      letter-spacing: 0.02em;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 8px 13px;
+      border-radius: 7px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: all 0.18s ease;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+    }
+
+    button.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    html[data-theme="night"] button.active {
+      color: #0e1412;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    article.card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .category {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    h2.card-title {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      line-height: 1.3;
+    }
+
+    p.summary {
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+
+    .box {
+      background: var(--surface-alt);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      font-size: 0.94rem;
+    }
+
+    .box strong {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 3px;
+      color: var(--accent);
+    }
+
+    .source-line {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .source-line a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .source-line a:hover {
+      text-decoration: underline;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--text);
+      color: var(--bg);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.88rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: all 0.2s ease;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="masthead">
+      <div class="masthead-top">
+        <span>Curitiba • Brasil • Mundo</span>
+        <span id="edition-timestamp">A carregar edição...</span>
+      </div>
+      <h1 class="brand">Caderno de Notícias</h1>
+      <p class="subtitle">Leitura diária calma, curiosa e fundamentada — edições de dia e de noite</p>
+    </header>
+
+    <div class="toolbar">
+      <div class="btn-group" role="group" aria-label="Período da edição">
+        <button id="btn-dia" class="active" onclick="setPeriod('dia')">☀️ Edição do Dia</button>
+        <button id="btn-noite" onclick="setPeriod('noite')">🌙 Edição da Noite</button>
+      </div>
+
+      <div class="btn-group" role="group" aria-label="Aparência e guardados">
+        <button id="btn-theme" onclick="toggleTheme()">🌗 Modo Noite</button>
+        <button id="btn-saved" onclick="toggleSavedView()">🔖 Guardados (<span id="saved-count">0</span>)</button>
+      </div>
+    </div>
+
+    <div id="category-filters" class="filters" aria-label="Filtrar por editoria"></div>
+
+    <main id="feed" class="grid" aria-live="polite"></main>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const FALLBACK_DATA = {
+      atualizado_em: "Edição inicial local",
+      edicoes: {
+        dia: [
+          {
+            id: "dia-psico-1",
+            categoria: "Psicologia & Neurociência",
+            titulo: "Funcionamento executivo e curiosidade em mentes com altas habilidades",
+            resumo: "Estudos sobre neurodivergências e AHSD mostram que a motivação intrínseca e a conexão entre áreas distintas do conhecimento sustentam melhor a atenção do que tarefas repetitivas de baixo significado.",
+            conexao: "Dialoga com processos psicológicos básicos, aprendizagem e neuropsicologia.",
+            reflexao: "Curiosidade profunda pede tempo de respiro: o tédio pode ser sinal de busca por sentido, não falta de foco.",
+            origem_nome: "Jornal da USP — Ciência e Saúde",
+            origem_url: "https://jornal.usp.br/"
+          },
+          {
+            id: "dia-curitiba-1",
+            categoria: "Curitiba",
+            titulo: "Parques urbanos, caminhabilidade e saúde mental no quotidiano curitibano",
+            resumo: "Áreas verdes conectadas e percursos a pé ajudam a reduzir a fadiga atencional e favorecem a restauração cognitiva ao longo da semana.",
+            conexao: "Relaciona psicologia ambiental, saúde e bem-estar urbano em Curitiba.",
+            reflexao: "Observar árvores, aves e rotas diferentes a pé transforma um trajeto comum numa pausa mental.",
+            origem_nome: "Agência de Notícias da Prefeitura de Curitiba",
+            origem_url: "https://www.curitiba.pr.gov.br/noticias"
+          },
+          {
+            id: "dia-pets-clima-1",
+            categoria: "Clima & Pets",
+            titulo: "Extremos climáticos, sombreamento urbano e bem-estar de animais domésticos",
+            resumo: "Variações térmicas intensas exigem atenção à hidratação, aos pisos quentes em passeios e a soluções ambientais que protegem pessoas, fauna urbana e animais de estimação.",
+            conexao: "Une alterações climáticas, cuidado responsável com animais e saúde quotidiana.",
+            reflexao: "Cuidar do espaço que partilhamos é um gesto prático de responsabilidade coletiva.",
+            origem_nome: "Observatório do Clima",
+            origem_url: "https://observatoriodoclima.eco.br/"
+          }
+        ],
+        noite: [
+          {
+            id: "noite-filo-1",
+            categoria: "Filosofia & Reflexão",
+            titulo: "A arte de encerrar o dia sem pressa e com clareza interior",
+            resumo: "Tradições filosóficas e práticas de autorreflexão apontam que rever o que foi essencial — e soltar o que escapa ao controlo — melhora a transição para o sono.",
+            conexao: "Conecta regulação emocional, higiene do sono e administração pessoal.",
+            reflexao: "Não é preciso resolver a vida inteira antes de dormir; basta escolher o próximo passo possível amanhã.",
+            origem_nome: "SciELO — Artigos em Ciências Humanas e Saúde",
+            origem_url: "https://www.scielo.br/"
+          },
+          {
+            id: "noite-mundo-1",
+            categoria: "Brasil & Mundo",
+            titulo: "Ciência aberta, cooperação internacional e novas fronteiras do conhecimento",
+            resumo: "Redes de investigação entre universidades brasileiras e centros internacionais ampliam o acesso a dados, metodologias e descobertas em saúde, ambiente e tecnologia.",
+            conexao: "Reforça a importância da pesquisa rigorosa e do diálogo intercultural.",
+            reflexao: "Quando o conhecimento circula com rigor e generosidade, o progresso torna-se mais humano.",
+            origem_nome: "Agência FAPESP",
+            origem_url: "https://agencia.fapesp.br/"
+          },
+          {
+            id: "noite-curiosidade-1",
+            categoria: "Curiosidades & Hobbies",
+            titulo: "Cadernos analógicos, escrita à mão e memória de longo prazo",
+            resumo: "Escrever ideias, resumos de leituras ou esboços à mão estimula síntese e retenção sem o estímulo constante de notificações.",
+            conexao: "Excelente alternativa de hobby calmo após sair das redes sociais.",
+            reflexao: "Um caderno simples pode ser laboratório de ideias, desenhos, listas e perguntas.",
+            origem_nome: "BBC Future",
+            origem_url: "https://www.bbc.com/future"
+          }
+        ]
+      }
+    };
+
+    const STORAGE_SAVED_KEY = "caderno_de_noticias_saved_v1";
+    const STORAGE_THEME_KEY = "caderno_de_noticias_theme_v1";
+
+    let state = {
+      data: FALLBACK_DATA,
+      period: new Date().getHours() >= 18 || new Date().getHours() < 6 ? "noite" : "dia",
+      category: "Todas",
+      onlySaved: false,
+      savedIds: JSON.parse(localStorage.getItem(STORAGE_SAVED_KEY) || "[]")
+    };
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem(STORAGE_THEME_KEY, theme);
+      const btn = document.getElementById("btn-theme");
+      btn.textContent = theme === "night" ? "☀️ Modo Dia" : "🌗 Modo Noite";
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme");
+      applyTheme(current === "night" ? "day" : "night");
+    }
+
+    function setPeriod(period) {
+      state.period = period;
+      state.onlySaved = false;
+      state.category = "Todas";
+      document.getElementById("btn-dia").classList.toggle("active", period === "dia");
+      document.getElementById("btn-noite").classList.toggle("active", period === "noite");
+      document.getElementById("btn-saved").classList.remove("active");
+      renderFilters();
+      renderFeed();
+    }
+
+    function toggleSavedView() {
+      state.onlySaved = !state.onlySaved;
+      document.getElementById("btn-saved").classList.toggle("active", state.onlySaved);
+      renderFilters();
+      renderFeed();
+    }
+
+    function toggleSaveItem(id) {
+      const idx = state.savedIds.indexOf(id);
+      if (idx === -1) {
+        state.savedIds.push(id);
+        showToast("Guardado no Caderno de Notícias.");
+      } else {
+        state.savedIds.splice(idx, 1);
+        showToast("Removido dos guardados.");
+      }
+      localStorage.setItem(STORAGE_SAVED_KEY, JSON.stringify(state.savedIds));
+      updateSavedCount();
+      renderFeed();
+    }
+
+    async function shareItem(item) {
+      const text = `${item.titulo}\n\n${item.resumo}\n\nOrigem: ${item.origem_nome} (${item.origem_url})`;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: item.titulo, text, url: item.origem_url });
+          return;
+        } catch (_) {}
+      }
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(text);
+        showToast("Resumo e referência copiados.");
+      }
+    }
+
+    function updateSavedCount() {
+      document.getElementById("saved-count").textContent = state.savedIds.length;
+    }
+
+    function getAllItems() {
+      const dia = state.data.edicoes.dia || [];
+      const noite = state.data.edicoes.noite || [];
+      return [...dia, ...noite];
+    }
+
+    function getActiveItems() {
+      if (state.onlySaved) {
+        return getAllItems().filter((item) => state.savedIds.includes(item.id));
+      }
+      return state.data.edicoes[state.period] || [];
+    }
+
+    function renderFilters() {
+      const container = document.getElementById("category-filters");
+      const baseItems = getActiveItems();
+      const categories = ["Todas", ...new Set(baseItems.map((i) => i.categoria))];
+      if (!categories.includes(state.category)) {
+        state.category = "Todas";
+      }
+
+      container.innerHTML = "";
+      categories.forEach((cat) => {
+        const btn = document.createElement("button");
+        btn.className = `chip ${state.category === cat ? "active" : ""}`;
+        btn.textContent = cat;
+        btn.onclick = () => {
+          state.category = cat;
+          renderFilters();
+          renderFeed();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderFeed() {
+      const feed = document.getElementById("feed");
+      const items = getActiveItems().filter(
+        (item) => state.category === "Todas" || item.categoria === state.category
+      );
+
+      if (!items.length) {
+        feed.innerHTML = `<div class="empty">Nenhuma leitura encontrada neste filtro.</div>`;
+        return;
+      }
+
+      feed.innerHTML = "";
+      items.forEach((item) => {
+        const isSaved = state.savedIds.includes(item.id);
+        const article = document.createElement("article");
+        article.className = "card";
+        article.innerHTML = `
+          <div class="card-meta">
+            <span class="category">${item.categoria}</span>
+            <span>${state.onlySaved ? "Guardado" : state.period === "dia" ? "Edição do Dia" : "Edição da Noite"}</span>
+          </div>
+          <h2 class="card-title">${item.titulo}</h2>
+          <p class="summary">${item.resumo}</p>
+          ${item.conexao ? `<div class="box"><strong>Conexão & repertório</strong>${item.conexao}</div>` : ""}
+          ${item.reflexao ? `<div class="box"><strong>Para refletir</strong>${item.reflexao}</div>` : ""}
+          <div class="source-line">
+            Referência / Origem:
+            <a href="${item.origem_url}" target="_blank" rel="noopener noreferrer">${item.origem_nome}</a>
+          </div>
+          <div class="card-actions">
+            <button onclick="toggleSaveItem('${item.id}')">${isSaved ? "🔖 Guardado" : "📑 Guardar"}</button>
+            <button onclick='shareItem(${JSON.stringify(item).replace(/'/g, "&#39;")})'>↗ Partilhar</button>
+          </div>
+        `;
+        feed.appendChild(article);
+      });
+    }
+
+    async function loadEditions() {
+      try {
+        const res = await fetch("./dados/edicoes.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("Falha ao carregar edicoes.json");
+        const json = await res.json();
+        if (json && json.edicoes) {
+          state.data = json;
+        }
+      } catch (_) {}
+
+      const periodLabel = state.period === "dia" ? "Dia" : "Noite";
+      document.getElementById("edition-timestamp").textContent =
+        `Período ativo: ${periodLabel} • Atualizado: ${state.data.atualizado_em || "Hoje"}`;
+
+      renderFilters();
+      renderFeed();
+    }
+
+    (function init() {
+      const savedTheme = localStorage.getItem(STORAGE_THEME_KEY);
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      } else {
+        const hour = new Date().getHours();
+        applyTheme(hour >= 19 || hour < 6 ? "night" : "day");
+      }
+      updateSavedCount();
+      loadEditions();
+    })();
+  </script>
+</body>
+</html>
