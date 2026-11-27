@@ -1,0 +1,29 @@
+{
+  "atualizado_em": "2026-11-27 07:00 BRT",
+  "edicoes": {
+    "dia": [
+      {
+        "id": "dia-1",
+        "categoria": "Psicologia & Neurociência",
+        "titulo": "Plasticidade cognitiva, sono restaurador e regulação emocional",
+        "resumo": "Investigações em neurociência e psicologia clínica destacam como ritmos regulares de vigília e repouso apoiam a memória, a clareza atencional e a estabilidade emocional.",
+        "conexao": "Dialoga com neuroanatomia, neuropsicologia e cuidado diário com a saúde.",
+        "reflexao": "Cuidar do ritmo do corpo não é perda de tempo: é base para pensar com nitidez.",
+        "origem_nome": "Jornal da USP",
+        "origem_url": "https://jornal.usp.br/"
+      }
+    ],
+    "noite": [
+      {
+        "id": "noite-1",
+        "categoria": "Filosofia & Reflexão",
+        "titulo": "Clareza, medida e serenidade ao fechar o dia",
+        "resumo": "Princípios clássicos de reflexão filosófica convidam a distinguir o que está ao nosso alcance do que não depende apenas de nós, encerrando o dia com menos tensão.",
+        "conexao": "Apoia transições noturnas tranquilas e organização pessoal sem rigidez.",
+        "reflexao": "A simplicidade de um bom encerramento abre espaço para um recomeço leve.",
+        "origem_nome": "SciELO",
+        "origem_url": "https://www.scielo.br/"
+      }
+    ]
+  }
+}
